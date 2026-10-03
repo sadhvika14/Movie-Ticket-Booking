@@ -35,6 +35,15 @@ app.get('/', (req, res) => {
 })
 
 // Inngest
+// Inngest
 app.use('/api/inngest', serve({ client: inngest, functions }))
 
 export default app
+
+if (!process.env.VERCEL) {
+  const port = process.env.PORT || 3000
+
+  app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`)
+  })
+}

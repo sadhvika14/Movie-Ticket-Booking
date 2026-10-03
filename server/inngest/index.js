@@ -1,18 +1,18 @@
 import { Inngest } from 'inngest'
 import User from '../models/User.js'
 
-// Create a client to send and receive events
+// Create Inngest client
 export const inngest = new Inngest({
   id: 'movie-ticket-booking',
 })
 
-// Inngest Function to save user data to a database
+// Sync user creation
 const syncUserCreation = inngest.createFunction(
   {
     id: 'sync-user-from-clerk',
-  },
-  {
-    event: 'clerk/user.created',
+    triggers: {
+      event: 'clerk/user.created',
+    },
   },
   async ({ event }) => {
     const {
@@ -34,12 +34,13 @@ const syncUserCreation = inngest.createFunction(
   }
 )
 
+// Sync user deletion
 const syncUserDeletion = inngest.createFunction(
   {
     id: 'delete-user-from-clerk',
-  },
-  {
-    event: 'clerk/user.deleted',
+    triggers: {
+      event: 'clerk/user.deleted',
+    },
   },
   async ({ event }) => {
     const { id } = event.data
@@ -48,13 +49,13 @@ const syncUserDeletion = inngest.createFunction(
   }
 )
 
-
+// Sync user updation
 const syncUserUpdation = inngest.createFunction(
   {
     id: 'update-user-from-clerk',
-  },
-  {
-    event: 'clerk/user.updated',
+    triggers: {
+      event: 'clerk/user.updated',
+    },
   },
   async ({ event }) => {
     const {
@@ -76,10 +77,8 @@ const syncUserUpdation = inngest.createFunction(
   }
 )
 
-
 export const functions = [
   syncUserCreation,
   syncUserDeletion,
-  syncUserUpdation
+  syncUserUpdation,
 ]
-    
