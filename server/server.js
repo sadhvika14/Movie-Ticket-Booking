@@ -18,12 +18,6 @@ app.get('/', (req, res) => res.send('Server is Live!'))
 
 app.use('/api/inngest', serve({ client: inngest, functions }))
 
-const startServer = async () => {
-  await connectDB()
+await connectDB()
 
-  app.listen(process.env.PORT || 3000, () => {
-    console.log('Server is running')
-  })
-}
-
-startServer()
+export default app
